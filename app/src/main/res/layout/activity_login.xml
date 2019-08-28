@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoginActivity"
+    android:background="@color/blue"
+    >
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin EMA"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="#ffffff"
+        android:textSize="40dp"
+        android:layout_marginLeft="16dp"
+        android:paddingHorizontal="16dp"
+        android:layout_centerVertical="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rounded_top"
+        android:orientation="vertical"
+        android:paddingHorizontal="32dp"
+        android:paddingTop="32dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Sign in"
+            android:textSize="20sp"
+            android:textColor="#2d2d2d" />
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#BDBDBD"
+            android:hint="Username"
+            android:textSize="14sp"
+            android:fontFamily="@font/montserrat_regular"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="#BDBDBD"
+            android:hint="Password"
+            android:textSize="14sp"
+            android:inputType="textPassword"
+            android:fontFamily="@font/montserrat_regular"
+            />
+
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/rounded_yellow"
+            android:text="Sign in"
+            android:textSize="12sp"
+            android:fontFamily="@font/montserrat_regular"
+            />
+
+    </LinearLayout>
+</RelativeLayout>
