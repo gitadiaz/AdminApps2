@@ -19,7 +19,7 @@
         android:textSize="40dp"
         android:layout_marginLeft="16dp"
         android:paddingHorizontal="16dp"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="160dp"
         />
 
     <LinearLayout
