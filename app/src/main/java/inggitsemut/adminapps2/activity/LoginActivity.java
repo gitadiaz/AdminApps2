@@ -1,11 +1,13 @@
 package inggitsemut.adminapps2.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import inggitsemut.adminapps2.R;
 import inggitsemut.adminapps2.api.Service;
 import inggitsemut.adminapps2.model.Result;
 import inggitsemut.adminapps2.storage.SharedPrefManager;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +85,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             etPassword.requestFocus();
             return;
         }
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
 
         // get API
         Retrofit retrofit = new Retrofit.Builder()
@@ -101,16 +108,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //calling the api
         call.enqueue(new Callback<Result>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
+            public void onResponse(@NonNull Call<Result> call, @NonNull Response<Result> response) {
                 progressDialog.dismiss();
-                if (!response.body().getError() && response.body().getAdmin() != null) {
+                Log.i("mki", "errorrnih: "+ response.body().toString());
+                if (response.body().getStatuscode() == 200) {
                     finish();
-                    SharedPrefManager.getInstance(getApplicationContext()).loginAdmin(response.body().getAdmin());
+                    SharedPrefManager.getInstance(getApplicationContext()).loginAdmin(response.body().getData());
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), "Login Successfully!", Toast.LENGTH_LONG).show();
-                } else {
+
+                } else{
                     Toast.makeText(getApplicationContext(), "Invalid Email or Password", Toast.LENGTH_LONG).show();
                 }
             }

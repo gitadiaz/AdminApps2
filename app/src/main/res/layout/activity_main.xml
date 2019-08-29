@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity"
-    android:orientation="vertical">
+    >
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,7 +39,7 @@
 
                 <TextView
                     android:id="@+id/event_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Admin EMA"
                     android:layout_centerInParent="true"
@@ -46,9 +47,7 @@
                     android:fontFamily="@font/montserrat_bold"
                     android:textColor="@color/blue"
                     android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/img_profile"
                     android:textAlignment="center"
-
                     />
             </RelativeLayout>
 
@@ -56,4 +55,51 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-</LinearLayout>
+    <FrameLayout
+        android:layout_above="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBarLayout"
+        >
+
+        <SurfaceView
+            android:id="@+id/camera_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <View
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rectangle"
+            />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@color/blue"
+        android:padding="16dp"
+        >
+
+        <TextView
+            android:id="@+id/code_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="ini tulisan dari barcode"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

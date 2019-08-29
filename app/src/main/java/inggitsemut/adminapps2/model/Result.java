@@ -1,49 +1,66 @@
 package inggitsemut.adminapps2.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Result {
 
-    @SerializedName("status_code")
-    private Integer status_code;
 
-    @SerializedName("error")
-    private Boolean error;
-
-    @SerializedName("message")
-    private String message;
-
-    @SerializedName("data")
-    private Admin admin;
-
-    @SerializedName("token")
+    @Expose
+    @SerializedName("Token")
     private String token;
+    @Expose
+    @SerializedName("Data")
+    private Admin data;
+    @Expose
+    @SerializedName("Message")
+    private String message;
+    @Expose
+    @SerializedName("Error")
+    private boolean error;
+    @Expose
+    @SerializedName("StatusCode")
+    private int statuscode;
 
-    public Result(Integer status_code, Boolean error, String message, Admin admin, String token) {
-        this.status_code = status_code;
-        this.error = error;
-        this.message = message;
-        this.admin = admin;
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
         this.token = token;
     }
 
-    public Integer getStatus_code() {
-        return status_code;
+    public Admin getData() {
+        return data;
     }
 
-    public Boolean getError() {
-        return error;
+    public void setData(Admin data) {
+        this.data = data;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public Admin getAdmin() {
-        return admin;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getToken() {
-        return token;
+    public boolean getError() {
+        return error;
     }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public int getStatuscode() {
+        return statuscode;
+    }
+
+    public void setStatuscode(int statuscode) {
+        this.statuscode = statuscode;
+    }
+
+
 }
