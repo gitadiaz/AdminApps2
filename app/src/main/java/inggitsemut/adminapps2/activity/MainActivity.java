@@ -3,8 +3,10 @@ package inggitsemut.adminapps2.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
@@ -72,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tvResult.post(new Runnable() {
                     @Override
                     public void run() {
+                        // Vibration when QR detected
+                        Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                        vibrator.vibrate(1000);
+
                         tvResult.setText(data);
                     }
                 });

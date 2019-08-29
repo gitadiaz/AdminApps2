@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(@NonNull Call<Result> call, @NonNull Response<Result> response) {
                 progressDialog.dismiss();
-                Log.i("mki", "errorrnih: "+ response.body().toString());
+//                Log.i("mki", "errorrnih: "+ response.body().toString());
                 if (response.body().getStatuscode() == 200) {
                     finish();
                     SharedPrefManager.getInstance(getApplicationContext()).loginAdmin(response.body().getData());
