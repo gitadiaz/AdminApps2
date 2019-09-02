@@ -5,12 +5,9 @@
     <stroke
         android:color="@color/yellow"
         android:dashGap="18dp"
-        android:dashWidth="38dp"
-        android:width="1dp"
+        android:width="4dp"
         />
 
-    <solid android:color="#00FEFEFE"/>
-
-    <corners android:radius="8dp"/>
+    <solid android:color="#A3FFFFFF"/>
 
 </shape>

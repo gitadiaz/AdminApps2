@@ -3,12 +3,18 @@ package inggitsemut.adminapps2.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +24,8 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+
+import org.w3c.dom.Text;
 
 import github.nisrulz.qreader.QRDataListener;
 import github.nisrulz.qreader.QREader;
@@ -29,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvResult;
     private SurfaceView surfaceView;
     private QREader qrEader;
+    private Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +87,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                         vibrator.vibrate(1000);
 
+                        // show dialog / popup
+                        myDialog = new Dialog(MainActivity.this);
+
+                        ImageView imgClose;
+                        Button btnAttend;
+                        TextView tvName, tvEmail, tvPhone;
+                        myDialog.setContentView(R.layout.custom_popup);
+
+                        imgClose = myDialog.findViewById(R.id.x_button);
+                        btnAttend = myDialog.findViewById(R.id.btn_attend);
+                        tvName = myDialog.findViewById(R.id.tv_name);
+                        tvEmail = myDialog.findViewById(R.id.tv_email);
+                        tvPhone = myDialog.findViewById(R.id.tv_phone);
+
+                        qrEader.stop();
+
+                        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        myDialog.show();
+
+                        tvName.setText(data);
+
+                        imgClose.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                myDialog.dismiss();
+                                qrEader.start();
+                            }
+                        });
+
                         tvResult.setText(data);
                     }
                 });
@@ -88,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .width(surfaceView.getWidth())
                 .build();
     }
+
+
 
     @Override
     protected void onResume() {
@@ -139,8 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }).check();
     }
 
-
-
     @Override
     public void onClick(View view) {
 
@@ -159,6 +197,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
-
 }
