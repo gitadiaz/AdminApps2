@@ -11,4 +11,6 @@
     <color name="white">#ffffff</color>
     <color name="redpink">#e65353</color>
     <color name="grey_light">#f0f0f0</color>
+    <color name="grey_dark">#2d2d2d</color>
+
 </resources>

@@ -15,9 +15,11 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -39,12 +41,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private QREader qrEader;
     private Dialog myDialog;
 
+    LinearLayout linearLayout;
+    BottomSheetBehavior bottomSheetBehavior;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Request permission
+        // Request permission camera
         Dexter.withActivity(this)
                 .withPermission(Manifest.permission.CAMERA)
                 .withListener(new PermissionListener() {
@@ -67,10 +72,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }).check();
 
+            linearLayout = findViewById(R.id.bottom_sheet);
+            bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+
     }
 
     private void setupCamera() {
-        tvResult = findViewById(R.id.code_info);
+//        tvResult = findViewById(R.id.code_info);
         surfaceView = findViewById(R.id.camera_view);
         setupQREader();
 
@@ -116,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
 
-                        tvResult.setText(data);
+//                        tvResult.setText(data);
                     }
                 });
             }
