@@ -1,6 +1,7 @@
 package inggitsemut.adminapps2.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout linearLayout;
     BottomSheetBehavior bottomSheetBehavior;
 
+    SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +75,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }).check();
 
+        // add bottom sheet
             linearLayout = findViewById(R.id.bottom_sheet);
             bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+
+            searchView = findViewById(R.id.search_view);
 
     }
 

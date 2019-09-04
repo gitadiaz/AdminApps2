@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import inggitsemut.adminapps2.R;
+import inggitsemut.adminapps2.api.ConfigUtils;
 import inggitsemut.adminapps2.api.Service;
 import inggitsemut.adminapps2.model.Result;
 import inggitsemut.adminapps2.storage.SharedPrefManager;
@@ -89,14 +90,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
 
-        // get API
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
         //Defining retrofit api service
-        Service service = retrofit.create(Service.class);
+        Service service = ConfigUtils.retrofit.create(Service.class);
 
         //defining the call
         Call<Result> call = service.loginAdmin(email, password);

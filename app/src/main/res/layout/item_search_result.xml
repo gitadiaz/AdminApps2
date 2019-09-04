@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="4"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img"
+        android:layout_width="44dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/x_button"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_launcher_background" />
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/img"
+        android:layout_below="@id/x_button"
+        android:layout_weight="2"
+        android:layout_marginHorizontal="8dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gita Diaz Pangesti"
+            android:textColor="#2d2d2d"
+            />
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gitadiazp@gmail.com"
+            />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="082298176450"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_attend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_yellow"
+        android:text="Attend"
+        android:paddingHorizontal="16dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>
