@@ -86,9 +86,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             etPassword.requestFocus();
             return;
         }
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
+//        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
 
         //Defining retrofit api service
         Service service = ConfigUtils.retrofit.create(Service.class);

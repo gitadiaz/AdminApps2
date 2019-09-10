@@ -2,6 +2,8 @@ package inggitsemut.adminapps2.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -12,11 +14,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +34,24 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import github.nisrulz.qreader.QRDataListener;
 import github.nisrulz.qreader.QREader;
 import inggitsemut.adminapps2.R;
+import inggitsemut.adminapps2.adapter.SearchAdapter;
+import inggitsemut.adminapps2.api.ConfigUtils;
+import inggitsemut.adminapps2.api.Service;
+import inggitsemut.adminapps2.model.Ticket;
+import inggitsemut.adminapps2.model.TicketList;
 import inggitsemut.adminapps2.storage.SharedPrefManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "MyActivity kenapa nih";
 
     private TextView tvResult;
     private SurfaceView surfaceView;
@@ -46,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     BottomSheetBehavior bottomSheetBehavior;
 
     SearchView searchView;
+
+    //Recycler view
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Ticket> tickets = new ArrayList<>();
+    private RecyclerView.Adapter searchAdapter;
+    private Service service;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                            qrEader.releaseAndCleanup();
 //                        }
                         setupCamera();
+//                        fetchTickets("");
                     }
 
                     @Override
@@ -76,11 +101,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }).check();
 
         // add bottom sheet
-            linearLayout = findViewById(R.id.bottom_sheet);
-            bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        linearLayout = findViewById(R.id.bottom_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
 
-            searchView = findViewById(R.id.search_view);
+        searchView = findViewById(R.id.search_view);
 
+        // recycler view
+        progressBar = findViewById(R.id.progress_bar);
+        recyclerView = findViewById(R.id.rv_data_user);
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        fetchTickets(""); // without keyword
     }
 
     private void setupCamera() {
@@ -141,8 +175,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
     }
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -178,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         setupCamera();
+//                        fetchTickets("");
 
                     }
 
@@ -208,7 +241,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else{
             setupCamera();
+//            fetchTickets("");
         }
 
     }
+
+    public void fetchTickets(String key){
+
+        service = ConfigUtils.getApiClient().create(Service.class);
+        Call<TicketList> call = service.getTicket(key);
+
+        call.enqueue(new Callback<TicketList>() {
+            @Override
+            public void onResponse(Call<TicketList> call, Response<TicketList> response) {
+                progressBar.setVisibility(View.GONE);
+                tickets = response.body().getTicketList();
+                Log.i(TAG, "onResponse: " + tickets.size());
+
+                searchAdapter = new SearchAdapter(tickets, MainActivity.this);
+                recyclerView.setAdapter(searchAdapter);
+
+//                searchAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<TicketList> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, "Error on: " + t.toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
