@@ -46,6 +46,10 @@ dependencies {
     implementation 'com.github.nisrulz:qreader:2.1.2'
     implementation 'com.karumi:dexter:5.0.0'
 
+    // qr code zxing
+//    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+
     // google vision
     implementation 'com.google.android.gms:play-services-vision:18.0.0'
 
@@ -60,5 +64,3 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
-
-

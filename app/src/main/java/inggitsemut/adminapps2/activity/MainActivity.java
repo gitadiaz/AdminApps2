@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -53,10 +54,14 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "MyActivity kenapa nih";
 
-    private TextView tvResult;
+//    private TextView tvResult;
     private SurfaceView surfaceView;
     private QREader qrEader;
+
     private Dialog myDialog;
+    ImageView imgClose;
+    Button btnAttend;
+    TextView tvName, tvEmail, tvPhone;
 
     LinearLayout linearLayout;
     BottomSheetBehavior bottomSheetBehavior;
@@ -82,9 +87,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-//                        if (qrEader != null){
-//                            qrEader.releaseAndCleanup();
-//                        }
+                        if (qrEader != null){
+                            qrEader.releaseAndCleanup();
+                        }
                         setupCamera();
 //                        fetchTickets("");
                     }
@@ -100,75 +105,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }).check();
 
-        // add bottom sheet
-        linearLayout = findViewById(R.id.bottom_sheet);
-        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+//        // add bottom sheet
+//        linearLayout = findViewById(R.id.bottom_sheet);
+//        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+//
+//        // search
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchView = findViewById(R.id.search_view);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName())
+//        );
+//        searchView.setIconifiedByDefault(false);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                fetchTickets(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                fetchTickets(newText);
+//                return false;
+//            }
+//        });
+//
+//        // recycler view
+//        progressBar = findViewById(R.id.progress_bar);
+//        recyclerView = findViewById(R.id.rv_data_user);
+//
+//        recyclerView.setHasFixedSize(true);
+//        layoutManager = new LinearLayoutManager(getApplicationContext());
+//        recyclerView.setLayoutManager(layoutManager);
 
-        searchView = findViewById(R.id.search_view);
-
-        // recycler view
-        progressBar = findViewById(R.id.progress_bar);
-        recyclerView = findViewById(R.id.rv_data_user);
-
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-
-        fetchTickets(""); // without keyword
+//        fetchTickets(""); // without keyword
     }
 
     private void setupCamera() {
 //        tvResult = findViewById(R.id.code_info);
+        myDialog = new Dialog(MainActivity.this);
+
+        imgClose = myDialog.findViewById(R.id.x_button);
+        btnAttend = myDialog.findViewById(R.id.btn_attend);
+        tvName = myDialog.findViewById(R.id.tv_name);
+        tvEmail = myDialog.findViewById(R.id.tv_email);
+        tvPhone = myDialog.findViewById(R.id.tv_phone);
+
         surfaceView = findViewById(R.id.camera_view);
         setupQREader();
 
     }
 
     private void setupQREader() {
-        qrEader = new QREader.Builder(this, surfaceView, new QRDataListener() {
-            @Override
-            public void onDetected(final String data) {
-                tvResult.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Vibration when QR detected
-                        Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrator.vibrate(1000);
 
-                        // show dialog / popup
-                        myDialog = new Dialog(MainActivity.this);
+        qrEader = new QREader.Builder(this, surfaceView, data -> tvName.post(() -> {
+            // Vibration when QR detected
+            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(1000);
 
-                        ImageView imgClose;
-                        Button btnAttend;
-                        TextView tvName, tvEmail, tvPhone;
-                        myDialog.setContentView(R.layout.custom_popup);
+            // show dialog / popup
 
-                        imgClose = myDialog.findViewById(R.id.x_button);
-                        btnAttend = myDialog.findViewById(R.id.btn_attend);
-                        tvName = myDialog.findViewById(R.id.tv_name);
-                        tvEmail = myDialog.findViewById(R.id.tv_email);
-                        tvPhone = myDialog.findViewById(R.id.tv_phone);
 
-                        qrEader.stop();
+            qrEader.stop();
 
-                        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        myDialog.show();
+            myDialog.setContentView(R.layout.custom_popup);
+            myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            myDialog.show();
 
-                        tvName.setText(data);
+            tvName.setText(data);
 
-                        imgClose.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                myDialog.dismiss();
-                                qrEader.start();
-                            }
-                        });
+            imgClose.setOnClickListener(v -> {
+                myDialog.dismiss();
+                qrEader.start();
+            });
 
-//                        tvResult.setText(data);
-                    }
-                });
-            }
-        }).facing(QREader.BACK_CAM)
+//            tvResult.setText(data);
+        })).facing(QREader.BACK_CAM)
                 .enableAutofocus(true)
                 .height(surfaceView.getHeight())
                 .width(surfaceView.getWidth())
@@ -260,8 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 searchAdapter = new SearchAdapter(tickets, MainActivity.this);
                 recyclerView.setAdapter(searchAdapter);
-
-//                searchAdapter.notifyDataSetChanged();
+                searchAdapter.notifyDataSetChanged();
 
             }
 

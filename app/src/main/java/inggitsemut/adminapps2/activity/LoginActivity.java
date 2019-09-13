@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //if user is already logged in
         if (SharedPrefManager.getInstance(this).isLoggedIn()) {
             finish();
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, Main2Activity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
 
         //Defining retrofit api service
-        Service service = ConfigUtils.retrofit.create(Service.class);
+        Service service = ConfigUtils.getApiClient().create(Service.class);
 
         //defining the call
         Call<Result> call = service.loginAdmin(email, password);
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (response.body().getStatuscode() == 200) {
                     finish();
                     SharedPrefManager.getInstance(getApplicationContext()).loginAdmin(response.body().getData());
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), "Login Successfully!", Toast.LENGTH_LONG).show();
