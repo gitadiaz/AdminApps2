@@ -198,7 +198,8 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
 
-        tvName.setText(rawResult.getText());
+        String arrResult[] = rawResult.getText().split("-");
+        tvName.setText(arrResult[0]);
 
         imgClose.setOnClickListener(v -> {
             myDialog.dismiss();
