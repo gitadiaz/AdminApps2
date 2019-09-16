@@ -79,8 +79,8 @@
 
     </FrameLayout>
 
-<!--    <include-->
-<!--        layout="@layout/bottom_sheet_search" />-->
+    <include
+        layout="@layout/bottom_sheet_search" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
