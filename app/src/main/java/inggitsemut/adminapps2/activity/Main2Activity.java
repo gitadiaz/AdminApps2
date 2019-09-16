@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,22 +26,23 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import inggitsemut.adminapps2.R;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class Main2Activity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class Main2Activity extends AppCompatActivity implements ZXingScannerView.ResultHandler, View.OnClickListener {
 
     // QR Code scanner using ZXing Lib
     private ZXingScannerView scannerView;
     private TextView txtResult;
 
     // Custom Popup
-    private Dialog myDialog;
-    ImageView imgClose;
-    Button btnAttend;
-    TextView tvName, tvEmail, tvPhone;
-
+    Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // init Custom Popup (dialog)
+        myDialog = new Dialog(this);
+
+
         setContentView(R.layout.activity_main2);
 
         // init QR Code Scanner
@@ -46,14 +50,7 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
         scannerView = findViewById(R.id.zxscan);
         txtResult = findViewById(R.id.txt_result);
 
-        // init Custom Popup (dialog)
-        myDialog = new Dialog(Main2Activity.this);
-
-        imgClose = myDialog.findViewById(R.id.x_button);
-        btnAttend = myDialog.findViewById(R.id.btn_attend);
-        tvName = myDialog.findViewById(R.id.tv_name);
-        tvEmail = myDialog.findViewById(R.id.tv_email);
-        tvPhone = myDialog.findViewById(R.id.tv_phone);
+        myDialog.setContentView(R.layout.custom_popup);
 
         // Request permission
         Dexter.withActivity(this)
@@ -98,12 +95,31 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
     public void handleResult(Result rawResult) {
         // here we receive the result
         txtResult.setText(rawResult.getText());
-//        scannerView.resumeCameraPreview(this);
 
-        // Vibration when QR detected
+        // Vibration when QR Detected
         Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(1000);
 
+        // Show Popup when QR Detected
+        ImageView imgClose;
+        Button btnAttend;
+        TextView tvName, tvEmail, tvPhone;
+
+        imgClose = myDialog.findViewById(R.id.x_button);
+        btnAttend = myDialog.findViewById(R.id.btn_attend);
+        tvName = myDialog.findViewById(R.id.tv_name);
+        tvEmail = myDialog.findViewById(R.id.tv_email);
+        tvPhone = myDialog.findViewById(R.id.tv_phone);
+
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+
+        tvName.setText(rawResult.getText());
+
+        imgClose.setOnClickListener(v -> {
+            myDialog.dismiss();
+            scannerView.resumeCameraPreview(this);
+        });
 
     }
 
@@ -121,4 +137,8 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
 
     }
 
+    @Override
+    public void onClick(View view) {
+
+    }
 }
