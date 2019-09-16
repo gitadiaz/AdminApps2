@@ -34,6 +34,10 @@ public class Result {
         return data;
     }
 
+    public int getStatuscode() {
+        return statuscode;
+    }
+
     public void setData(Admin data) {
         this.data = data;
     }
@@ -54,9 +58,7 @@ public class Result {
         this.error = error;
     }
 
-    public int getStatuscode() {
-        return statuscode;
-    }
+
 
     public void setStatuscode(int statuscode) {
         this.statuscode = statuscode;

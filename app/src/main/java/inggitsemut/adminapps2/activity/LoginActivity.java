@@ -86,9 +86,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             etPassword.requestFocus();
             return;
         }
-//        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
 
         //Defining retrofit api service
         Service service = ConfigUtils.getApiClient().create(Service.class);
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(@NonNull Call<Result> call, @NonNull Response<Result> response) {
                 progressDialog.dismiss();
-//                Log.i("mki", "errorrnih: "+ response.body().toString());
+//                Log.i("mki", "errorrnih: "+ response.body());
                 if (response.body().getStatuscode() == 200) {
                     finish();
                     SharedPrefManager.getInstance(getApplicationContext()).loginAdmin(response.body().getData());

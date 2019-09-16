@@ -9,6 +9,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import inggitsemut.adminapps2.api.ConfigUtils;
 import inggitsemut.adminapps2.api.Service;
 import inggitsemut.adminapps2.model.Ticket;
 import inggitsemut.adminapps2.model.TicketList;
+import inggitsemut.adminapps2.storage.SharedPrefManager;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -223,4 +225,5 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
     public void onClick(View view) {
 
     }
+
 }

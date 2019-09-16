@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_top_grey_light"
-    android:padding="16dp"
     app:layout_behavior="@string/bottom_sheet_behavior"
     app:behavior_hideable="true"
     app:behavior_peekHeight="36dp"
@@ -17,6 +16,7 @@
         android:layout_height="4dp"
         android:background="#D3D3D3"
         android:layout_gravity="center"
+        android:layout_margin="16dp"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -26,6 +26,7 @@
         android:textColor="@color/grey_dark"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
+        android:layout_marginLeft="16dp"
         />
 
     <androidx.appcompat.widget.SearchView
@@ -37,12 +38,14 @@
         app:queryHint="Enter an email or phone number"
         app:iconifiedByDefault="false"
         android:focusable="false"
+        android:layout_marginHorizontal="16dp"
+
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="8dp">
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -56,8 +59,6 @@
             android:id="@+id/rv_data_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/progress_bar"
-            android:layout_marginTop="-3dp"
             />
 
 
