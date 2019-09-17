@@ -39,6 +39,7 @@ import inggitsemut.adminapps2.adapter.SearchAdapter;
 import inggitsemut.adminapps2.api.ConfigUtils;
 import inggitsemut.adminapps2.api.Service;
 import inggitsemut.adminapps2.model.Ticket;
+import inggitsemut.adminapps2.model.TicketById;
 import inggitsemut.adminapps2.model.TicketList;
 import inggitsemut.adminapps2.storage.SharedPrefManager;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -203,18 +204,28 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
 //        tvName.setText(arrResult[1]);
 
         service = ConfigUtils.getApiClient().create(Service.class);
-        Call<Ticket> callById = service.getTicketById(Integer.parseInt(arrResult[0]));
+        Call<TicketById> callById = service.getTicketById(Integer.parseInt(arrResult[0]));
 
-        callById.enqueue(new Callback<Ticket>() {
+        callById.enqueue(new Callback<TicketById>() {
             @Override
-            public void onResponse(Call<Ticket> call, Response<Ticket> response) {
-                tvName.setText(response.body().getMember_name());
-                tvEmail.setText(response.body().getMember_email());
-                tvPhone.setText(response.body().getMember_phone_number());
+            public void onResponse(Call<TicketById> call, Response<TicketById> response) {
+//                tvName.setText(response.body().getMember_name());
+//                tvEmail.setText(response.body().getMember_email());
+//                tvPhone.setText(response.body().getMember_phone_number());
+
+                Ticket ticket = response.body().getData();
+
+                Log.i("SUCCESS", "onResponse: name"+ticket.getMember_name());
+                Log.i("SUCCESS", "onResponse: email"+ticket.getMember_email());
+                Log.i("SUCCESS", "onResponse: phone"+ticket.getMember_phone_number());
+
+                tvName.setText(ticket.getMember_name());
+                tvEmail.setText(ticket.getMember_email());
+                tvPhone.setText(ticket.getMember_phone_number());
             }
 
             @Override
-            public void onFailure(Call<Ticket> call, Throwable t) {
+            public void onFailure(Call<TicketById> call, Throwable t) {
                 Toast.makeText(Main2Activity.this, "Failed get ticket", Toast.LENGTH_SHORT).show();
 
             }

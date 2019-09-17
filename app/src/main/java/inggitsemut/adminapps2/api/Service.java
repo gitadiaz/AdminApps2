@@ -4,6 +4,7 @@ import java.util.List;
 
 import inggitsemut.adminapps2.model.Result;
 import inggitsemut.adminapps2.model.Ticket;
+import inggitsemut.adminapps2.model.TicketById;
 import inggitsemut.adminapps2.model.TicketList;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -30,7 +31,7 @@ public interface Service {
 
     // get ticket by id
     @GET ("product/public/viewticket/{id}")
-    Call<Ticket> getTicketById(
+    Call<TicketById> getTicketById(
             @Path("id") int id
     );
 }
