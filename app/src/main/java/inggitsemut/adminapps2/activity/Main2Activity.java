@@ -125,7 +125,7 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
             }
         });
 
-        // recycler view
+        // recycler view search
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.rv_data_user);
 
@@ -133,7 +133,7 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        fetchTickets(""); // without keyword
+        fetchTickets(""); // search without keyword
     }
 
     private void fetchTickets(String key) {
@@ -198,8 +198,27 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
 
+        // split hasil qr code dengan " - "
         String arrResult[] = rawResult.getText().split("-");
-        tvName.setText(arrResult[0]);
+//        tvName.setText(arrResult[1]);
+
+        service = ConfigUtils.getApiClient().create(Service.class);
+        Call<Ticket> callById = service.getTicketById(Integer.parseInt(arrResult[0]));
+
+        callById.enqueue(new Callback<Ticket>() {
+            @Override
+            public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                tvName.setText(response.body().getMember_name());
+                tvEmail.setText(response.body().getMember_email());
+                tvPhone.setText(response.body().getMember_phone_number());
+            }
+
+            @Override
+            public void onFailure(Call<Ticket> call, Throwable t) {
+                Toast.makeText(Main2Activity.this, "Failed get ticket", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         imgClose.setOnClickListener(v -> {
             myDialog.dismiss();

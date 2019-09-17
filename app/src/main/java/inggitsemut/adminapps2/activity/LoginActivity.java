@@ -11,6 +11,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import inggitsemut.adminapps2.R;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText etEmail, etPassword;
     private boolean doubleBackToExitPressedOnce;
+    private TextView btnForgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPassword = findViewById(R.id.et_password);
         etEmail.setText(getIntent().getStringExtra("message"));
 
+        btnForgotPassword = findViewById(R.id.btn_forgot_password);
+        btnForgotPassword.setOnClickListener(this);
 
         findViewById(R.id.btn_sign_in).setOnClickListener(this);
 
@@ -132,6 +136,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btn_sign_in:
                 userSignIn();
+                break;
+            case R.id.btn_forgot_password:
+                Intent intentForgotPassword = new Intent(this, ForgotPasswordActivity.class);
+                startActivity(intentForgotPassword);
                 break;
         }
     }
