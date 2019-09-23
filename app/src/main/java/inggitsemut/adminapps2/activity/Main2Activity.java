@@ -42,6 +42,7 @@ import inggitsemut.adminapps2.model.Ticket;
 import inggitsemut.adminapps2.model.TicketById;
 import inggitsemut.adminapps2.model.TicketList;
 import inggitsemut.adminapps2.storage.SharedPrefManager;
+import me.dm7.barcodescanner.core.IViewFinder;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,7 +75,19 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
         setContentView(R.layout.activity_main2);
         
         // init QR Code Scanner
-        scannerView = new ZXingScannerView(this);
+        scannerView = new ZXingScannerView(this){
+
+            @Override
+            protected IViewFinder createViewFinderView(Context context) {
+                return super.createViewFinderView(context);
+            }
+        };
+
+//        mScannerView = object : ZXingScannerView(this) {
+//            override fun createViewFinderView(context: Context?):IViewFinder {
+//                return CustomViewFinderView(context!!)
+//            }
+//        }
         scannerView = findViewById(R.id.zxscan);
         
         // init Custom Popup (dialog)
