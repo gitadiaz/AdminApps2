@@ -119,6 +119,7 @@ public class Main2Activity extends AppCompatActivity implements ZXingScannerView
         // add bottom sheet layout
         linearLayout = findViewById(R.id.bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        bottomSheetBehavior.setHideable(false);
 
         // search oon bottom sheet layout
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
